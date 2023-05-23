@@ -884,11 +884,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 40a3f6a9-3217-4ae3-a6a9-9e57097d3674
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Solo_Pong
+  organizationId: unity_mcrl4aq0fhvi-q
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
