@@ -20,6 +20,7 @@ public class Wall : MonoBehaviour
     public void Init(GameManager gameManager)
     {
         _gameManager = gameManager;
+
     }
 
 

@@ -9,15 +9,16 @@ public class Ball : MonoBehaviour
     public UnityAction ballFallEvent;
 
     public Rigidbody ballRigidbody;
+    [SerializeField]
+    private Vector3 _originalPosition;
+
     private GameManager _gameManager;
 
     private float _gameLoseHeight;
-    private Vector3 _originalPosition;
     public void Init(GameManager gameManager, float gameLoseHeight)
     {
         _gameManager = gameManager;
         _gameLoseHeight = gameLoseHeight;
-        _originalPosition = transform.position;
     }
 
     public void HandleHeightDetection()
@@ -28,6 +29,6 @@ public class Ball : MonoBehaviour
     public void ResetPosition()
     {
         ballRigidbody.velocity = Vector3.zero;
-        transform.position = _originalPosition;
+        ballRigidbody.MovePosition(_originalPosition);
     }
 }
