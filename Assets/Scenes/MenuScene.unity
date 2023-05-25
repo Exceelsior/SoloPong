@@ -931,8 +931,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e11177584484c44b49869586b0170b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testMode: 1
-  bannerPosition: 1
+  testMode: 0
+  bannerPosition: 4
 --- !u!4 &1862001174
 Transform:
   m_ObjectHideFlags: 0
