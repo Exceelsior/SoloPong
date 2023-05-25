@@ -1,9 +1,34 @@
 fileFormatVersion: 2
-guid: c6110e0199b6d4c4fb962c0af1bf380d
+guid: 4bf12b1f61752f049be0fa3a61587329
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: aluminum
+    second: {fileID: 2100000, guid: a53515fd82adb504eac348d72524dffc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fabric
+    second: {fileID: 2100000, guid: ec92467884ad33f4c808ba2f30c7e42e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: green
+    second: {fileID: 2100000, guid: 850b0cc52f67557409a8ec966e8baba0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grey
+    second: {fileID: 2100000, guid: 764dea8376adb3145b34f23fb24a32d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic
+    second: {fileID: 2100000, guid: c0595984300bb254590f4bb069c525c4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI _newHighScoreText;
     [SerializeField]
     private TextMeshProUGUI _endGameScoreText;
+    [SerializeField]
+    private AudioManager _audioManager;
+
 
     [SerializeField]
     private float _moneyGainAnimationDuration = 1.0f;
@@ -117,8 +120,7 @@ public class GameManager : MonoBehaviour
 
         _analyticsManager?.ThrowGameEndEvent(_totalHits);
 
-        _ball.ResetPosition();
-        _playerRacket.ResetPosition();
+        _audioManager.PlayGameLoseSound();
 
         _newPlayerMoney = _basePlayerMoney + _totalHits;
         PlayerPrefs.SetInt("Money", _newPlayerMoney);
@@ -132,6 +134,8 @@ public class GameManager : MonoBehaviour
 
         _ball.ResetPosition();
         _playerRacket.ResetPosition();
+
+        
 
         StartCoroutine(MoneyGainCoroutine());
     }
@@ -197,7 +201,7 @@ public class GameManager : MonoBehaviour
 
         #region Texts Settings
         _moneyText.text = _basePlayerMoney.ToString();
-        _scoreText.text = _totalHits.ToString() + "\nHits";
+        _scoreText.text = _totalHits.ToString() + "\nHITS!";
         _highscoreText.text = _highscore.ToString();
         #endregion
     }
