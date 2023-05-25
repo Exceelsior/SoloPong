@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
     private float _ballLoseHeight = -0.5f;
     [SerializeField]
     private CustomizationManager _customizationManager;
-
+    [SerializeField]
+    private AnalyticsManager _analyticsManager;
 
     public int TotalHits { get => _totalHits; }
 
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
             Instantiate(ballItem.itemPrefab, _ball.transform);
         }
 
-        ShopItem ballTrailItem = _customizationManager.GetCurrentBallTrailSkin();
+        ShopItem ballTrailItem = _customizationManager.GetCurrentTrailSkin();
         if (ballTrailItem.itemPrefab != null)
         {
             Instantiate(ballTrailItem.itemPrefab, _ball.transform);
@@ -110,6 +111,8 @@ public class GameManager : MonoBehaviour
     private void GameLose()
     {
         _gameLose = true;
+
+        _analyticsManager?.ThrowGameEndEvent(_totalHits);
 
         _ball.ResetPosition();
         _playerRacket.ResetPosition();
@@ -174,10 +177,13 @@ public class GameManager : MonoBehaviour
         _basePlayerMoney = PlayerPrefs.GetInt("Money", 0);
         _highscore = PlayerPrefs.GetInt("Highscore", 0);
         _totalHits = 0;
+        _gameLose = false;
+        _gamePaused = false;
         #endregion
 
         #region Objects Activations
         _endGameUI.gameObject.SetActive(false);
+        _pauseUI.gameObject.SetActive(false);
         _newHighScoreText.gameObject.SetActive(false);
         _pauseButton.gameObject.SetActive(true);
         _scoreText.gameObject.SetActive(true);
@@ -189,7 +195,6 @@ public class GameManager : MonoBehaviour
         _highscoreText.text = _highscore.ToString();
         #endregion
 
-        _gameLose = false;
     }
 
     public void BackToMenu()

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1353005826097617431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 516386596042556}
+  - component: {fileID: 4305442005191159932}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &516386596042556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353005826097617431}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 166.0778, y: 211.83067, z: -2.2871497}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4305442005191159932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353005826097617431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dee820fc7ee5344a4c653caf2f00fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _musicAudioSource: {fileID: 0}
+  _sfxAudioSource: {fileID: 0}
+  _musicCheckbox: {fileID: 0}
+  _sfxCheckbox: {fileID: 0}
+  _ballOnRacketBounceClip: {fileID: 8300000, guid: ad1f25dfdd2f9bb43bf264067a32e65f,
+    type: 3}
+  _ballOnAnySurfaceBounceClip: {fileID: 8300000, guid: eed6b671fe4e4be4aa83f0a00c8930af,
+    type: 3}
+  _uiButtonClip: {fileID: 8300000, guid: 9f2e6faa3fa0e9743a75ab5012680821, type: 3}
+  _gameLoseClip: {fileID: 8300000, guid: 87e57c684eeb3dc48aee5860376ad580, type: 3}

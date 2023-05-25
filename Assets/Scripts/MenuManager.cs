@@ -39,8 +39,8 @@ public class MenuManager : MonoBehaviour
         }
         #endregion
 
-        _moneyText.text = PlayerPrefs.GetInt("Money", 0).ToString();
-        _highscoreText.text = PlayerPrefs.GetInt("Highscore", 0).ToString();
+        //_moneyText.text = PlayerPrefs.GetInt("Money", 0).ToString();
+        //_highscoreText.text = PlayerPrefs.GetInt("Highscore", 0).ToString();
     }
 
     void Update()

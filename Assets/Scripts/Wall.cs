@@ -5,13 +5,16 @@ using UnityEngine;
 public class Wall : MonoBehaviour
 {
     [SerializeField]
-    private BoxCollider _ballTargetBounds;
+    private BoxCollider _ballTargetCollider;
     [SerializeField]
     private Vector2 _ballXTargetOnBoundsRandomness;
     [SerializeField]
     private Vector2 _ballYTargetOnBoundsRandomness;
     [SerializeField]
     private AnimationCurve _bouncinessForHitsCurve;
+    [SerializeField]
+    private AudioManager _audioManager;
+
 
     private GameManager _gameManager;
 
@@ -20,17 +23,18 @@ public class Wall : MonoBehaviour
     public void Init(GameManager gameManager)
     {
         _gameManager = gameManager;
-
+        _ballTargetCollider.isTrigger = true;
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Ball ball = collision.gameObject.GetComponent<Ball>();
+        Ball ball = other.gameObject.GetComponent<Ball>();
 
         if (ball != null)
         {
-            Vector3 newVelocity = Vector3.Reflect(ball.ballRigidbody.velocity, collision.contacts[0].normal) * _bouncinessForHitsCurve.Evaluate(_gameManager.TotalHits);
+            _audioManager.PlayBallBounceSound(false);
+            Vector3 newVelocity = Vector3.Reflect(ball.ballRigidbody.velocity, -1 * transform.forward) * _bouncinessForHitsCurve.Evaluate(_gameManager.TotalHits);
             ball.ballRigidbody.velocity = newVelocity;
         }
     }
@@ -39,7 +43,7 @@ public class Wall : MonoBehaviour
     {
         Vector3 result = Vector3.zero;
 
-        Bounds bounds = _ballTargetBounds.bounds;
+        Bounds bounds = _ballTargetCollider.bounds;
 
         Vector3 closestPosition = bounds.ClosestPoint(ballPos);
 

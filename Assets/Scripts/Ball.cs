@@ -11,6 +11,8 @@ public class Ball : MonoBehaviour
     public Rigidbody ballRigidbody;
     [SerializeField]
     private Vector3 _originalPosition;
+    [SerializeField]
+    private AudioManager _audioManager;
 
     private GameManager _gameManager;
 
@@ -32,4 +34,10 @@ public class Ball : MonoBehaviour
         ballRigidbody.angularVelocity = Vector3.zero;
         ballRigidbody.MovePosition(_originalPosition);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        _audioManager.PlayBallBounceSound(false);
+    }
+
 }

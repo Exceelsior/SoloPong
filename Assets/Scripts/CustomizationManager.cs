@@ -5,18 +5,22 @@ using UnityEngine;
 
 public class CustomizationManager : MonoBehaviour
 {
+    public List<ShopItem> racketSkins { get => _racketSkins;}
+    public List<ShopItem> ballSkins { get => _ballSkins;}
+    public List<ShopItem> trailSkins { get => _ballTrailSkins;}
+
     [SerializeField]
-    private ShopItem[] _racketSkins;
+    private List<ShopItem> _racketSkins;
     [SerializeField]
-    private ShopItem[] _ballSkins;
+    private List<ShopItem> _ballSkins;
     [SerializeField]
-    private ShopItem[] _ballTrailSkins;
+    private List<ShopItem> _ballTrailSkins;
 
     public ShopItem GetCurrentRacketSkin()
     {
-        ShopItem result = new ShopItem();
+        ShopItem result = ScriptableObject.CreateInstance<ShopItem>();
         int skinIndex = PlayerPrefs.GetInt("RacketSkin", 0);
-        if (skinIndex >= 0 && skinIndex < _racketSkins.Length)
+        if (skinIndex >= 0 && skinIndex < _racketSkins.Count)
         {
             result = _racketSkins[skinIndex];
         }
@@ -25,20 +29,20 @@ public class CustomizationManager : MonoBehaviour
 
     public ShopItem GetCurrentBallSkin()
     {
-        ShopItem result = new ShopItem();
+        ShopItem result = ScriptableObject.CreateInstance<ShopItem>();
         int skinIndex = PlayerPrefs.GetInt("BallSkin", 0);
-        if (skinIndex >= 0 && skinIndex < _ballSkins.Length)
+        if (skinIndex >= 0 && skinIndex < _ballSkins.Count)
         {
             result = _ballSkins[skinIndex];
         }
         return result;
     }
 
-    public ShopItem GetCurrentBallTrailSkin()
+    public ShopItem GetCurrentTrailSkin()
     {
-        ShopItem result = new ShopItem();
+        ShopItem result = ScriptableObject.CreateInstance<ShopItem>();
         int skinIndex = PlayerPrefs.GetInt("BallTrailSkin", 0);
-        if (skinIndex >= 0 && skinIndex < _ballTrailSkins.Length)
+        if (skinIndex >= 0 && skinIndex < _ballTrailSkins.Count)
         {
             result = _ballTrailSkins[skinIndex];
         }
@@ -57,6 +61,24 @@ public class CustomizationManager : MonoBehaviour
 
     public void SetBallTrailSkin(int newSkinIndex)
     {
+        PlayerPrefs.SetInt("BallTrailSkin", newSkinIndex);
+    }
+
+    public void SetRacketSkin(ShopItem newSkin)
+    {
+        int newSkinIndex = _racketSkins.IndexOf(newSkin);
+        PlayerPrefs.SetInt("RacketSkin", newSkinIndex);
+    }
+
+    public void SetBallSkin(ShopItem newSkin)
+    {
+        int newSkinIndex = _ballSkins.IndexOf(newSkin);
+        PlayerPrefs.SetInt("BallSkin", newSkinIndex);
+    }
+
+    public void SetBallTrailSkin(ShopItem newSkin)
+    {
+        int newSkinIndex = _ballTrailSkins.IndexOf(newSkin);
         PlayerPrefs.SetInt("BallTrailSkin", newSkinIndex);
     }
 }

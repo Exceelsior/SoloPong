@@ -394,7 +394,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 16148
+  m_VersionIndex: 16157
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f262df889c1f848929ab9b8772d185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ballTargetBounds: {fileID: 6380309056970677471}
+  _ballTargetCollider: {fileID: 6380309056970677471}
   _ballXTargetOnBoundsRandomness: {x: -0.25, y: 0.25}
   _ballYTargetOnBoundsRandomness: {x: -0.05, y: 0.05}
   _bouncinessForHitsCurve:
@@ -636,3 +636,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _audioManager: {fileID: 0}

@@ -18,33 +18,25 @@ public class AnalyticsManager : MonoBehaviour
             Debug.Log(e.ToString());
         }
     }
-
-    //Example
-    /*
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            this.LevelCompletedCustomEvent();
-        }
-    }
     
-    private void LevelCompletedCustomEvent()
+    public void ThrowGameEndEvent(int totalHits)
     {
-        int currentLevel = Random.Range(1, 4); //Gets a random number from 1-3
+        
         //Define Custom Parameters
         //"levelName"  is the name of the custom parameter
         Dictionary<string, object> parameters = new Dictionary<string, object> {
             {
-                "levelName", "level" + currentLevel
+                "totalHits",  totalHits
             }
         };
 
         // The ‘levelCompleted’ event will get cached locally 
         //"levelCompleted" is the name of the custom event
         //and sent during the next scheduled upload, within 1 minute
-        AnalyticsService.Instance.CustomData("levelCompleted", parameters);
+        AnalyticsService.Instance.CustomData("gameLose", parameters);
 
         // You can call Events.Flush() to send the event immediately
         AnalyticsService.Instance.Flush();
     }
-    */
+    
 }

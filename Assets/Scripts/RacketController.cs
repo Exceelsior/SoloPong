@@ -13,7 +13,7 @@ public class RacketController : MonoBehaviour
     [SerializeField]   
     private Rigidbody _racketRigidbody;
     [SerializeField]
-    private Collider _rightCollider;
+    private Collider _racketCollider;
     [SerializeField]
     private float _moveSpeed = 10.0f;
     [SerializeField]
@@ -22,7 +22,8 @@ public class RacketController : MonoBehaviour
     private AnimationCurve _ballMaxTrajectoryHeightForHitSpeed;
     [SerializeField]
     private Vector3 _originalPosition;
-
+    [SerializeField]
+    private AudioManager _audioManager;
 
     private Vector3 _pointOnPlane;
     private Vector3 _moveDirection;
@@ -34,6 +35,7 @@ public class RacketController : MonoBehaviour
     public void Init(GameManager gameManager)
     {
         _gameManager = gameManager;
+        _racketCollider.isTrigger = true;
         _plane = new Plane(Vector3.up, Vector3.up * transform.position.y);
     }
 
@@ -53,7 +55,7 @@ public class RacketController : MonoBehaviour
 
         _playerStoppedDragging = false;
 #else
-        if (Input.touchCount > 0)
+        if(Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
             Ray ray = _camera.ScreenPointToRay(touch.position);
@@ -63,6 +65,7 @@ public class RacketController : MonoBehaviour
                 _pointOnPlane = ray.GetPoint(enter);
             }
 
+            _isPlayerDragging = true;
             _playerStoppedDragging = touch.phase == TouchPhase.Ended;
         }
         else _isPlayerDragging = false;
@@ -78,9 +81,9 @@ public class RacketController : MonoBehaviour
         _racketRigidbody.velocity = _playerStoppedDragging ? Vector3.zero : new Vector3(_moveDirection.x, 0, _moveDirection.z) * _moveSpeed;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Ball ball = collision.gameObject.GetComponent<Ball>();
+        Ball ball = other.gameObject.GetComponent<Ball>();
 
         if (ball != null)
         {
@@ -88,7 +91,7 @@ public class RacketController : MonoBehaviour
 
             Vector3 ballTarget = _wall.GetRandomPointOnBoundsFromBallPos(ball.transform.position);
             ball.ballRigidbody.velocity = GetBallVelocityToTarget(ball, ballTarget);
-
+            _audioManager.PlayBallBounceSound(true);
 
         }
     }
