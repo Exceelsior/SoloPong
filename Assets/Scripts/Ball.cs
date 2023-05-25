@@ -7,7 +7,8 @@ using UnityEngine.Events;
 public class Ball : MonoBehaviour
 {
     public UnityAction ballFallEvent;
-
+    public bool hasCollidedWithRacket;
+    public bool hasCollidedWithWall;
     public Rigidbody ballRigidbody;
     [SerializeField]
     private Vector3 _originalPosition;
@@ -15,6 +16,8 @@ public class Ball : MonoBehaviour
     private AudioManager _audioManager;
 
     private GameManager _gameManager;
+
+    
 
     private float _gameLoseHeight;
     public void Init(GameManager gameManager, float gameLoseHeight)
@@ -30,6 +33,8 @@ public class Ball : MonoBehaviour
 
     public void ResetPosition()
     {
+        hasCollidedWithWall = false;
+        hasCollidedWithRacket = false;
         ballRigidbody.velocity = Vector3.zero;
         ballRigidbody.angularVelocity = Vector3.zero;
         ballRigidbody.MovePosition(_originalPosition);

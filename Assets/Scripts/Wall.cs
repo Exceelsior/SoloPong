@@ -31,8 +31,10 @@ public class Wall : MonoBehaviour
     {
         Ball ball = other.gameObject.GetComponent<Ball>();
 
-        if (ball != null)
+        if (ball != null && ball.hasCollidedWithWall == false)
         {
+            ball.hasCollidedWithWall = true;
+            ball.hasCollidedWithRacket = false;
             _audioManager.PlayBallBounceSound(false);
             Vector3 newVelocity = Vector3.Reflect(ball.ballRigidbody.velocity, -1 * transform.forward) * _bouncinessForHitsCurve.Evaluate(_gameManager.TotalHits);
             ball.ballRigidbody.velocity = newVelocity;

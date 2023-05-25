@@ -85,9 +85,12 @@ public class RacketController : MonoBehaviour
     {
         Ball ball = other.gameObject.GetComponent<Ball>();
 
-        if (ball != null)
+        if (ball != null && ball.hasCollidedWithRacket == false)
         {
             ballHitEvent?.Invoke();
+
+            ball.hasCollidedWithRacket = true;
+            ball.hasCollidedWithWall = false;
 
             Vector3 ballTarget = _wall.GetRandomPointOnBoundsFromBallPos(ball.transform.position);
             ball.ballRigidbody.velocity = GetBallVelocityToTarget(ball, ballTarget);

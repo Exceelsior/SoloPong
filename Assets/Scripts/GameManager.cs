@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Button _pauseButton;
     [SerializeField]
+    private Sprite _pauseGameSprite;
+    [SerializeField]
+    private Sprite _unpauseGameSprite;
+    [SerializeField]
     private GameObject _pauseUI;
     [SerializeField]
     private TextMeshProUGUI _highscoreText;
@@ -106,6 +110,7 @@ public class GameManager : MonoBehaviour
     public void PauseGameSwitch()
     {
         _gamePaused = !_gamePaused;
+        _pauseButton.image.sprite = _gamePaused ? _unpauseGameSprite : _pauseGameSprite;
         _pauseUI.SetActive(_gamePaused);
     }
     private void GameLose()
