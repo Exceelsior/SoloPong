@@ -4,6 +4,8 @@ using UnityEngine.Advertisements;
 
 public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener, IUnityAdsInitializationListener
 {
+    public static AdsManager instance;
+
     [SerializeField] private bool testMode = true;
     [SerializeField] private BannerPosition bannerPosition = BannerPosition.BOTTOM_CENTER;
 
@@ -11,7 +13,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     private const string GAME_ID = "5270504";
     private const string PLACEMENT_ID = "Interstitial_iOS";
 #elif UNITY_ANDROID
-    private const string GAME_ID = "5270505";
+    private const string GAME_ID = "5291145";
     private const string PLACEMENT_ID = "Interstitial_Android";
     private const string PLACEMENTBANNER_ID = "Banner_Android";
     private const string PLACEMENTREWARDED_ID = "Rewarded_Android";
@@ -20,21 +22,22 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     private const string PLACEMENT_ID = "";
 #endif
 
-    public AdsManager Instance;
     public Action OnShowAdsStart;
     public Action OnShowAdsComplete;
     public Action OnShowAdsRewardedComplete;
 
-
-    void Awake()
+    private void Awake()
     {
-        if(Instance != null)
+        if (instance != null)
+            DestroyImmediate(instance);
+        else
         {
-            Destroy(Instance);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        Instance = this;
     }
-    void Start()
+
+    private void Start()
     {
 #if UNITY_ANDROID || UNITY_IOS
         Advertisement.Initialize(GAME_ID, testMode, this);
@@ -87,13 +90,17 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
 #if UNITY_ANDROID || UNITY_IOS
         if (Advertisement.isInitialized)
         {
-            Advertisement.Show(PLACEMENT_ID, this);
+            Advertisement.Show(PLACEMENTREWARDED_ID, this);
         }
 #endif
     }
     
     public void OnUnityAdsAdLoaded(string placementId)
     {
+        if (placementId == PLACEMENTREWARDED_ID)
+        {
+            PlayAdsRewarded();
+        }
         // Optionally execute code if the Ad Unit successfully loads content.
     }
     
@@ -123,7 +130,6 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
 
         if (placementId.Equals(PLACEMENTREWARDED_ID))
         {
-            Advertisement.Load(PLACEMENTREWARDED_ID, this);
             if (showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
             {
                 OnShowAdsRewardedComplete?.Invoke();
@@ -158,6 +164,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     void OnBannerLoaded()
     {
         Debug.Log("Banner loaded");
+        ShowBannerAd();
     }
  
     // Implement code to execute when the load errorCallback event triggers:
@@ -168,7 +175,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     }
  
     // Implement a method to call when the Show Banner button is clicked:
-    void ShowBannerAd()
+    public void ShowBannerAd()
     {
         // Set up options to notify the SDK of show events:
         BannerOptions options = new BannerOptions
