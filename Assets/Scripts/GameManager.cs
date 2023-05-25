@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     private CustomizationManager _customizationManager;
     [SerializeField]
     private AnalyticsManager _analyticsManager;
-
+    
     public int TotalHits { get => _totalHits; }
 
     private int _totalHits;
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     #region Unity Events
     private void Start()
-    { 
+    {
         _scoreGainAnimationDuration = _scoreGainScaleAnimationCurve.keys[_scoreGainScaleAnimationCurve.keys.Length - 1].time;
         _wall.Init(this);
         _ball.Init(this, _ballLoseHeight);
@@ -68,8 +68,6 @@ public class GameManager : MonoBehaviour
         _playerRacket.Init(this);
         _playerRacket.ballHitEvent += IncrementScore;
         
-
-
         #region Skin Initialization
         ShopItem racketItem = _customizationManager.GetCurrentRacketSkin();
         if (racketItem.itemPrefab != null)
@@ -89,7 +87,6 @@ public class GameManager : MonoBehaviour
             Instantiate(ballTrailItem.itemPrefab, _ball.transform);
         }
         #endregion
-
 
         SetupGame();
     }
@@ -115,6 +112,7 @@ public class GameManager : MonoBehaviour
     }
     private void GameLose()
     {
+        AdsManager.instance.HideBannerAd();
         _gameLose = true;
 
         _analyticsManager?.ThrowGameEndEvent(_totalHits);
@@ -134,10 +132,6 @@ public class GameManager : MonoBehaviour
 
         _ball.ResetPosition();
         _playerRacket.ResetPosition();
-
-
-
-
 
         StartCoroutine(MoneyGainCoroutine());
     }
@@ -173,11 +167,18 @@ public class GameManager : MonoBehaviour
             _moneyText.text = Mathf.Ceil(Mathf.Lerp(_basePlayerMoney, _newPlayerMoney, i)).ToString();
             yield return null;
         }
-
     }
 
     public void SetupGame()
     {
+        AdsManager.instance.LoadBanner();
+
+        if (AdsManager.instance.OnShowAdsComplete.GetInvocationList().Length > 0)
+        {
+            AdsManager.instance.OnShowAdsComplete -= () => SetupGame();
+            AdsManager.instance.OnShowAdsComplete = null;
+        }
+
         #region Value Settings
         _basePlayerMoney = PlayerPrefs.GetInt("Money", 0);
         _highscore = PlayerPrefs.GetInt("Highscore", 0);
@@ -199,11 +200,24 @@ public class GameManager : MonoBehaviour
         _scoreText.text = _totalHits.ToString() + "\nHits";
         _highscoreText.text = _highscore.ToString();
         #endregion
+    }
 
+    public void Retry()
+    {
+        AdsManager.instance.OnShowAdsComplete += () => SetupGame();
+        AdsManager.instance.LoadAdInterstitial();
     }
 
     public void BackToMenu()
     {
+        AdsManager.instance.OnShowAdsComplete += () => ChangeSceneToMenu();
+        AdsManager.instance.LoadAdInterstitial();
+    }
+
+    private void ChangeSceneToMenu()
+    {
+        AdsManager.instance.OnShowAdsComplete -= () => ChangeSceneToMenu();
+        AdsManager.instance.OnShowAdsComplete = null;
         SceneManager.LoadScene("MenuScene");
     }
 }

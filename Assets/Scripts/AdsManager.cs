@@ -50,10 +50,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
 
     #region Initialization
 
-    public void OnInitializationComplete()
-    {
-        Advertisement.Load(PLACEMENT_ID, this);
-    }
+    public void OnInitializationComplete() { }
     
     public void OnInitializationFailed(UnityAdsInitializationError error, string message) { }
 
@@ -101,6 +98,10 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
         {
             PlayAdsRewarded();
         }
+        else
+        {
+            PlayAdsInterstitial();
+        }
         // Optionally execute code if the Ad Unit successfully loads content.
     }
     
@@ -137,7 +138,6 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
         }
         else
         {
-            Advertisement.Load(PLACEMENT_ID, this);
             OnShowAdsComplete?.Invoke();
         }
     }
@@ -190,7 +190,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     }
  
     // Implement a method to call when the Hide Banner button is clicked:
-    void HideBannerAd()
+    public void HideBannerAd()
     {
         // Hide the banner:
         Advertisement.Banner.Hide();
