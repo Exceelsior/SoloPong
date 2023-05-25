@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class RacketController : MonoBehaviour
 {
     public UnityAction ballHitEvent;
-
+    public Transform racketMeshParent;
 
     [SerializeField]
     private Camera _camera;

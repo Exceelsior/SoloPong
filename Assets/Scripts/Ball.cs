@@ -29,6 +29,7 @@ public class Ball : MonoBehaviour
     public void ResetPosition()
     {
         ballRigidbody.velocity = Vector3.zero;
+        ballRigidbody.angularVelocity = Vector3.zero;
         ballRigidbody.MovePosition(_originalPosition);
     }
 }

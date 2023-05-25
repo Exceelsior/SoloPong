@@ -22,18 +22,23 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Button _pauseButton;
     [SerializeField]
+    private GameObject _pauseUI;
+    [SerializeField]
     private TextMeshProUGUI _highscoreText;
     [SerializeField]
     private TextMeshProUGUI _newHighScoreText;
+    [SerializeField]
+    private TextMeshProUGUI _endGameScoreText;
 
     [SerializeField]
     private float _moneyGainAnimationDuration = 1.0f;
     [SerializeField]
     private AnimationCurve _scoreGainScaleAnimationCurve;
-
-
     [SerializeField]
     private float _ballLoseHeight = -0.5f;
+    [SerializeField]
+    private CustomizationManager _customizationManager;
+
 
     public int TotalHits { get => _totalHits; }
 
@@ -57,6 +62,29 @@ public class GameManager : MonoBehaviour
         _ball.ballFallEvent += GameLose;
         _playerRacket.Init(this);
         _playerRacket.ballHitEvent += IncrementScore;
+        
+
+
+        #region Skin Initialization
+        ShopItem racketItem = _customizationManager.GetCurrentRacketSkin();
+        if (racketItem.itemPrefab != null)
+        {
+            Instantiate(racketItem.itemPrefab, _playerRacket.racketMeshParent);
+        }
+
+        ShopItem ballItem = _customizationManager.GetCurrentBallSkin();
+        if (ballItem.itemPrefab != null)
+        {
+            Instantiate(ballItem.itemPrefab, _ball.transform);
+        }
+
+        ShopItem ballTrailItem = _customizationManager.GetCurrentBallTrailSkin();
+        if (ballTrailItem.itemPrefab != null)
+        {
+            Instantiate(ballTrailItem.itemPrefab, _ball.transform);
+        }
+        #endregion
+
 
         SetupGame();
     }
@@ -77,21 +105,31 @@ public class GameManager : MonoBehaviour
     public void PauseGameSwitch()
     {
         _gamePaused = !_gamePaused;
+        _pauseUI.SetActive(_gamePaused);
     }
     private void GameLose()
     {
         _gameLose = true;
+
+        _ball.ResetPosition();
+        _playerRacket.ResetPosition();
+
         _newPlayerMoney = _basePlayerMoney + _totalHits;
-        PlayerPrefs.SetInt("PlayerMoney", _newPlayerMoney);
-        _endGameUI.SetActive(true);
+        PlayerPrefs.SetInt("Money", _newPlayerMoney);
+        if (_totalHits > _highscore) PlayerPrefs.SetInt("Highscore", _totalHits);
+        _endGameScoreText.text = _totalHits.ToString() + "\nHITS!";
+
+        _pauseButton.gameObject.SetActive(false);
         _scoreText.gameObject.SetActive(false);
+        _endGameUI.SetActive(true);
+        _newHighScoreText.gameObject.SetActive(_totalHits > _highscore);
+
+        _ball.ResetPosition();
+        _playerRacket.ResetPosition();
 
 
-        if (_totalHits > _highscore)
-        {
-            PlayerPrefs.SetInt("Highscore", _totalHits);
-            _newHighScoreText.gameObject.SetActive(true);
-        }
+
+
 
         StartCoroutine(MoneyGainCoroutine());
     }
@@ -104,7 +142,7 @@ public class GameManager : MonoBehaviour
         }
 
         _totalHits++;
-        _scoreText.text = _totalHits.ToString() + "\nHits";
+        _scoreText.text = _totalHits.ToString() + "\nHITS!";
 
         StartCoroutine(ScoreGainCoroutine());
     }
@@ -133,7 +171,7 @@ public class GameManager : MonoBehaviour
     public void SetupGame()
     {
         #region Value Settings
-        _basePlayerMoney = PlayerPrefs.GetInt("PlayerMoney", 0);
+        _basePlayerMoney = PlayerPrefs.GetInt("Money", 0);
         _highscore = PlayerPrefs.GetInt("Highscore", 0);
         _totalHits = 0;
         #endregion
@@ -152,8 +190,6 @@ public class GameManager : MonoBehaviour
         #endregion
 
         _gameLose = false;
-        _ball.ResetPosition();
-        _playerRacket.ResetPosition();
     }
 
     public void BackToMenu()

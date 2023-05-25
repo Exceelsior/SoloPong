@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &537418878187063100
 Transform:
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 16100
+  m_VersionIndex: 16148
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -586,8 +586,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8.403528, y: 2.0960708, z: 0.48220286}
-  m_Center: {x: 0, y: 0, z: 3.2398853}
+  m_Size: {x: 8.34332, y: 1.5211947, z: 0.107008226}
+  m_Center: {x: -0.0052048517, y: 0.26506883, z: 3.0523016}
 --- !u!114 &6337203899391165419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,3 +600,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f262df889c1f848929ab9b8772d185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ballTargetBounds: {fileID: 6380309056970677471}
+  _ballXTargetOnBoundsRandomness: {x: -0.25, y: 0.25}
+  _ballYTargetOnBoundsRandomness: {x: -0.05, y: 0.05}
+  _bouncinessForHitsCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.9
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 150
+      value: 1.1
+      inSlope: 0.00000030000007
+      outSlope: 0.00000030000007
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1000000
+      value: 1.2
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
