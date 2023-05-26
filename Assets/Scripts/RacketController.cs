@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,9 @@ public class RacketController : MonoBehaviour
     private Vector3 _originalPosition;
     [SerializeField]
     private AudioManager _audioManager;
+    [SerializeField]
+    private LayerMask _layerMask;
+
 
     private Vector3 _pointOnPlane;
     private Vector3 _moveDirection;
@@ -31,12 +35,14 @@ public class RacketController : MonoBehaviour
     private bool _playerStoppedDragging = false;
     private GameManager _gameManager;
     private Plane _plane;
+    private Collider[] _ballCollision;
 
     public void Init(GameManager gameManager)
     {
         _gameManager = gameManager;
         _racketCollider.isTrigger = true;
         _plane = new Plane(Vector3.up, Vector3.up * transform.position.y);
+        _ballCollision = new Collider[1];
     }
 
     public void HandleInputs()
@@ -81,21 +87,29 @@ public class RacketController : MonoBehaviour
         _racketRigidbody.velocity = _playerStoppedDragging ? Vector3.zero : new Vector3(_moveDirection.x, 0, _moveDirection.z) * _moveSpeed;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void HandleCollisions()
     {
-        Ball ball = other.gameObject.GetComponent<Ball>();
-
-        if (ball != null && ball.hasCollidedWithRacket == false)
+        if (Physics.OverlapBoxNonAlloc(_racketCollider.bounds.center, _racketCollider.bounds.size, _ballCollision, transform.rotation, _layerMask) > 0)
         {
-            ballHitEvent?.Invoke();
+            Ball ball = _ballCollision[0].GetComponent<Ball>();
 
-            ball.hasCollidedWithRacket = true;
-            ball.hasCollidedWithWall = false;
+            if (ball != null && ball.hasCollidedWithRacket == false)
+            {
+                Vector3 ballTarget = _wall.GetRandomPointOnBoundsFromBallPos(ball.transform.position);
 
-            Vector3 ballTarget = _wall.GetRandomPointOnBoundsFromBallPos(ball.transform.position);
-            ball.ballRigidbody.velocity = GetBallVelocityToTarget(ball, ballTarget);
-            _audioManager.PlayBallBounceSound(true);
+                Vector3 newBallVelocity = GetBallVelocityToTarget(ball, ballTarget);
 
+                if (newBallVelocity.IsNaN() == false)
+                {
+                    ballHitEvent?.Invoke();
+
+                    ball.hasCollidedWithRacket = true;
+                    ball.hasCollidedWithWall = false;
+
+                    ball.ballRigidbody.velocity = newBallVelocity;
+                    _audioManager.PlayBallBounceSound(true);
+                }
+            }
         }
     }
 

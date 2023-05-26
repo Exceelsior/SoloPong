@@ -25,6 +25,7 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         #region Skin Initialization
         ShopItem racketItem = _customizationManager.GetCurrentRacketSkin();
         if(racketItem.itemPrefab != null)

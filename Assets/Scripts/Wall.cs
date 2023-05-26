@@ -14,19 +14,37 @@ public class Wall : MonoBehaviour
     private AnimationCurve _bouncinessForHitsCurve;
     [SerializeField]
     private AudioManager _audioManager;
-
+    [SerializeField]
+    private LayerMask _layerMask;
 
     private GameManager _gameManager;
-
+    private Collider[] _ballCollision;
 
 
     public void Init(GameManager gameManager)
     {
         _gameManager = gameManager;
         _ballTargetCollider.isTrigger = true;
+        _ballCollision = new Collider[1];
     }
 
+    public void HandleCollisions()
+    {
+        if (Physics.OverlapBoxNonAlloc(_ballTargetCollider.bounds.center, _ballTargetCollider.bounds.size, _ballCollision, transform.rotation, _layerMask) > 0)
+        {
+            Ball ball = _ballCollision[0].GetComponent<Ball>();
 
+            if (ball != null && ball.hasCollidedWithWall == false)
+            {
+                ball.hasCollidedWithWall = true;
+                ball.hasCollidedWithRacket = false;
+                _audioManager.PlayBallBounceSound(false);
+                Vector3 newVelocity = Vector3.Reflect(ball.ballRigidbody.velocity, -1 * transform.forward) * _bouncinessForHitsCurve.Evaluate(_gameManager.TotalHits);
+                ball.ballRigidbody.velocity = newVelocity;
+            }
+        }
+    }
+    /*
     private void OnTriggerEnter(Collider other)
     {
         Ball ball = other.gameObject.GetComponent<Ball>();
@@ -40,7 +58,7 @@ public class Wall : MonoBehaviour
             ball.ballRigidbody.velocity = newVelocity;
         }
     }
-
+    */
     public Vector3 GetRandomPointOnBoundsFromBallPos(Vector3 ballPos)
     {
         Vector3 result = Vector3.zero;

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 750699432617599886}
   - component: {fileID: 8714181487768258728}
   - component: {fileID: 9213725172454820065}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerRacket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,6 +79,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   _originalPosition: {x: -0.025, y: 0.03, z: -0.25}
   _audioManager: {fileID: 0}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!65 &8714181487768258728
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -117,7 +120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5233047490220200495}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RacketMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

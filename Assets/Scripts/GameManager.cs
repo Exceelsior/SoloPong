@@ -98,6 +98,8 @@ public class GameManager : MonoBehaviour
     {
         if (_gameLose || _gamePaused) return;
         _playerRacket.HandleInputs();
+        _playerRacket.HandleCollisions();
+        _wall.HandleCollisions();
         _ball.HandleHeightDetection();
     }
 
@@ -177,7 +179,7 @@ public class GameManager : MonoBehaviour
     {
         AdsManager.instance.LoadBanner();
 
-        if (AdsManager.instance.OnShowAdsComplete.GetInvocationList().Length > 0)
+        if (AdsManager.instance.OnShowAdsComplete?.GetInvocationList().Length > 0)
         {
             AdsManager.instance.OnShowAdsComplete -= () => SetupGame();
             AdsManager.instance.OnShowAdsComplete = null;
